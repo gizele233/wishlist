@@ -16,7 +16,13 @@ const createClient = async (client) => {
     return {insertId: createdClient.insertId};
 };
 
+const deleteClient = async(id) => {
+    const removedClient = await connection.execute('DELETE FROM clients WHERE client_id = ?', [id]);
+    return removedClient;
+};
+
 module.exports = {
     getAll,
-    createClient
+    createClient,
+    deleteClient
 };
