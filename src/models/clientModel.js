@@ -21,8 +21,17 @@ const deleteClient = async(id) => {
     return removedClient;
 };
 
+const updateClient = async(id, client) => {
+    const query = 'UPDATE clients SET name = ?, email_address = ? WHERE client_id=?';
+    const {name, email_address} = client;
+
+    const [updateClient] = await connection.execute(query, [name, email_address, id]);
+    return updateClient;
+};
+
 module.exports = {
     getAll,
     createClient,
-    deleteClient
+    deleteClient,
+    updateClient
 };
