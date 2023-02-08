@@ -37,9 +37,16 @@ import { clientService } from "../services/clientService";
 export class ClientController{
     async createClient(req: Request, res: Response){
         const {name, email_address} = req.body;
-        const createClientService = new clientService();
+
+        try{
+            const createClientService = new clientService();
         
-        const client = await createClientService.createClient({name, email_address});
-        return res.status(201).json(client)
+            const client = await createClientService.createClient({name, email_address});
+            return res.status(201).json(client)
+            
+        } catch(error){
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+        
     }
 }
