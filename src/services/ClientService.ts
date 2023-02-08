@@ -1,7 +1,7 @@
 import { clientRepository } from "../repositories/clientRepository";
 
 
-export class clientService{
+export class ClientService{
     async createClient({name, email_address}:any){
         const clientAlreadyExists = await clientRepository.findOne({where: {email_address: email_address}});
         if(clientAlreadyExists){

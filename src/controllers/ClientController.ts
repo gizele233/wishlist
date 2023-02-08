@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { clientService } from "../services/clientService";
+import { ClientService } from "../services/ClientService";
 
 
 // const getAll = async (request, response) => {
@@ -39,7 +39,7 @@ export class ClientController{
         const {name, email_address} = req.body;
 
         try{
-            const createClientService = new clientService();
+            const createClientService = new ClientService();
         
             const client = await createClientService.createClient({name, email_address});
             return res.status(201).json(client)
