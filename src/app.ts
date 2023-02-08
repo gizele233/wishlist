@@ -6,9 +6,7 @@ const router = require('./router');
 Connection.initialize().then(() => {
     const app = express();
     app.use(express.json());
-    app.get('/', (req, res)=>{
-        return res.json('tudo certo');
-    })
-    // app.use(router);
+    app.use(router);
+    
     return app.listen(process.env.PORT);
 })
