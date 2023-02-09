@@ -41,4 +41,21 @@ export class ProductController{
             return res.status(500).json({message: 'Internal Server Error'})
         }
     }
+
+    async updateProduct(req: Request, res: Response){
+
+        const {price, image, brand, title, review_score} = req.body;
+        const {product_id} = req.params;
+
+        try{
+            const updateProductService = new ProductService();
+        
+            const productUpdate = await updateProductService.updateProduct({res, product_id, price, image, brand, title, review_score});
+            return res.status(204).json(productUpdate)
+            
+        } catch(error){
+            console.log(error)
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+    }
 }

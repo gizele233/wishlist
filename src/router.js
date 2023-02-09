@@ -5,8 +5,8 @@ const { WishlistController } = require('./controllers/WishlistController');
 
 const router = express.Router();
 
-
-router.put('/clients/:client_id/update', new ClientController().updateClient);
+router.put('/product/:product_id/update', new ProductController().updateProduct);
+router.put('/client/:client_id/update', new ClientController().updateClient);
 router.delete('/product/:product_id/delete', new ProductController().deleteProduct);
 router.delete('/client/:client_id/delete', new ClientController().deleteClient);
 router.get('/products', new ProductController().listProduct);

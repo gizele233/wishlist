@@ -32,4 +32,25 @@ export class ProductService{
 
         return productToRemove 
     }
+
+    async updateProduct({res, product_id, price, image, brand, title, review_score}: any){
+        const productUpdate = await productRepository.findOneBy({
+            product_id: product_id
+        })
+
+        if(!productUpdate){
+            return res.status(404).json({message: 'There is no product with this id'})
+        }
+        
+        productUpdate.price = price;
+        productUpdate.image = image;
+        productUpdate.brand = brand;
+        productUpdate.title = title;
+        productUpdate.review_score = review_score;
+
+
+        await productRepository.save(productUpdate)
+
+        return productUpdate 
+    }
 }
