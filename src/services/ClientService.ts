@@ -37,4 +37,21 @@ export class ClientService{
 
         return clientToRemove 
     }
+
+    async updateClient({res, client_id, name, email_address}: any){
+        const clientUpdate = await clientRepository.findOneBy({
+            client_id: client_id
+        })
+
+        if(!clientUpdate){
+            return res.status(404).json({message: 'There is no customer with this id'})
+        }
+        
+        clientUpdate.name = name;
+        clientUpdate.email_address = email_address;
+
+        await clientRepository.save(clientUpdate)
+
+        return clientUpdate 
+    }
 }

@@ -75,4 +75,21 @@ export class ClientController{
             return res.status(500).json({message: 'Internal Server Error'})
         }
     }
+
+    async updateClient(req: Request, res: Response){
+
+        const {name, email_address} = req.body;
+        const {client_id} = req.params;
+
+        try{
+            const updateClientService = new ClientService();
+        
+            const clientUpdate = await updateClientService.updateClient({res, client_id, name, email_address});
+            return res.status(204).json(clientUpdate)
+            
+        } catch(error){
+            console.log(error)
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+    }
 }
