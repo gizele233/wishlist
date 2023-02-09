@@ -1,4 +1,6 @@
+import { rootCertificates } from "tls";
 import { clientRepository } from "../repositories/clientRepository";
+import { productRepository } from "../repositories/productRepository";
 import { wishlistRepository } from "../repositories/wishlistRepository";
 
 
@@ -23,5 +25,35 @@ export class WishlistService{
         await wishlistRepository.save(newWishlist);
         return newWishlist;
 
+    }
+
+    async addProducttoWishlist({res, wishlist_id, product_id}: any){
+        const productExists = await productRepository.findOneBy({product_id: Number(product_id)});
+
+        if(!productExists){
+            return res.status(404).json({message: 'Product does not exist'})
+        }
+
+        const wishlist = await wishlistRepository.findOneBy({wishlist_id: Number(wishlist_id)});
+
+        const productUpdate = {
+            ...productExists,
+            wishlist: [wishlist]
+        }
+
+        await productRepository.save(productUpdate)
+
+        return productUpdate;
+    }
+
+    async listWishlist(){
+        const wishlists = await wishlistRepository.find({
+            relations:{
+                client: true,
+                products: true
+            }
+        })
+
+        return wishlists
     }
 }

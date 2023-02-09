@@ -13,17 +13,6 @@ export class Wishlist{
     client: Client
 
     @ManyToMany(() => Product, product => product.wishlists)
-    @JoinTable({
-        name: 'product_wishlist',
-        joinColumn:{
-            name: 'product_id',
-            referencedColumnName: 'wishlist_id'
-        },
-        inverseJoinColumn:{
-            name: 'wishlist_id',
-            referencedColumnName: 'product_id'
-        }
-    })
     products: Product[]
     
 }

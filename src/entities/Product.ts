@@ -1,4 +1,4 @@
-import { Column, Double, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Double, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Wishlist } from "./Wishlist";
 
 @Entity('products')
@@ -22,6 +22,18 @@ export class Product{
     @Column({type: "double"})
     review_score: number
 
-    @ManyToMany(() => Wishlist, Wishlist => Wishlist.products)
+
+    @ManyToMany(() => Wishlist, wishlist => wishlist.products)
+    @JoinTable({
+        name: 'product_wishlist',
+        joinColumn:{
+            name: 'wishlist_id',
+            referencedColumnName: 'product_id'
+        },
+        inverseJoinColumn:{
+            name: 'product_id',
+            referencedColumnName: 'wishlist_id'
+        }
+    })
     wishlists: Wishlist[]
 } 

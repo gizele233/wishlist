@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { WishlistService } from "../services/WishlistService";
 
 
-export class wishlistController{
+export class WishlistController{
     async createWishlist(req: Request, res: Response){
         const {client_id} = req.params
        
@@ -15,5 +15,25 @@ export class wishlistController{
         } catch(error){
             return res.status(500).json({message: 'Internal Server Error'})
         }
+    }
+
+    async addProducttoWishlist(req: Request, res: Response){
+        const {wishlist_id, product_id} = req.params
+       
+        try{
+            const createWishlistService = new WishlistService();
+        
+            const ProducttoWishlist = await createWishlistService.addProducttoWishlist({res, wishlist_id, product_id});
+            return res.status(201).json(ProducttoWishlist)
+            
+        } catch(error){
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+    }
+
+    async listWishlist(req: Request, res: Response){
+        const listWishlistService = new WishlistService();
+        const listWishlist = await listWishlistService.listWishlist();
+        return res.status(201).json(listWishlist)
     }
 }
