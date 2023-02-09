@@ -9,7 +9,7 @@ export class Wishlist{
     wishlist_id: number
 
     @OneToOne(() => Client, (client) => client.wishlist,{
-        onDelete: 'CASCADE'
+        cascade:true,
     })
     @JoinColumn({name: 'client_id'})
     client: Client
