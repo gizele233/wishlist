@@ -9,4 +9,13 @@ export class ProductService{
         return newProduct;
 
     }
+
+    async listProduct(){
+        const products = await productRepository.find({
+            relations:{
+                wishlists: true,
+            }
+        })
+        return products
+    }
 }
