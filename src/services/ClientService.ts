@@ -1,3 +1,4 @@
+import { deleteClient } from "../models/clientModel";
 import { clientRepository } from "../repositories/clientRepository";
 
 
@@ -22,5 +23,19 @@ export class ClientService{
         })
 
         return clients
+    }
+
+    async deleteClient({res, client_id}: any){
+        const clientToRemove = await clientRepository.findOneBy({
+            client_id: client_id
+        })
+
+        if(!clientToRemove){
+            return res.status(404).json({message: 'There is no customer with this id'})
+        }
+        
+        await clientRepository.remove(clientToRemove)
+
+        return clientToRemove 
     }
 }
