@@ -17,9 +17,9 @@ export class ClientService{
 
     async listCLient(){
         const clients = await clientRepository.find({
-            relations:{
-                wishlist: true
-            }
+            // relations:{
+            //     wishlist: true
+            // }
         })
 
         return clients

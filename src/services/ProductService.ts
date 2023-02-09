@@ -18,4 +18,18 @@ export class ProductService{
         })
         return products
     }
+
+    async deleteProduct({res, product_id}: any){
+        const productToRemove = await productRepository.findOneBy({
+            product_id: product_id
+        })
+
+        if(!productToRemove){
+            return res.status(404).json({message: 'There is no product with this id'})
+        }
+        
+        await productRepository.remove(productToRemove)
+
+        return productToRemove 
+    }
 }

@@ -65,13 +65,12 @@ export class ClientController{
         const {client_id} = req.params;
 
         try{
-            const createClientService = new ClientService();
+            const deleteClientService = new ClientService();
         
-            const clientToRemove = await createClientService.deleteClient({res, client_id});
+            const clientToRemove = await deleteClientService.deleteClient({res, client_id});
             return res.status(204).json(clientToRemove)
             
         } catch(error){
-            console.log(error)
             return res.status(500).json({message: 'Internal Server Error'})
         }
     }

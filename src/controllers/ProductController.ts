@@ -22,9 +22,23 @@ export class ProductController{
             const listProduct = await listProductService.listProduct();
             return res.status(201).json(listProduct)
         } catch(error){
-            console.log(error)
             return res.status(500).json({message: 'Internal Server Error'})
         }
         
+    }
+
+    async deleteProduct(req: Request, res: Response){
+        const {product_id} = req.params;
+
+        try{
+            const deleteProductService = new ProductService();
+        
+            const productToRemove = await deleteProductService.deleteProduct({res, product_id});
+            return res.status(204).json(productToRemove)
+            
+        } catch(error){
+            console.log(error)
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
     }
 }

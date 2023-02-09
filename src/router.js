@@ -8,6 +8,7 @@ const router = express.Router();
 
 
 // router.get('/clients', (req, res) => res.status(200).send('router funcionando!'));
+router.delete('/product/:product_id/delete', new ProductController().deleteProduct);
 router.delete('/client/:client_id/delete', new ClientController().deleteClient);
 router.get('/products', new ProductController().listProduct);
 router.get('/clients', new ClientController().listClient);
