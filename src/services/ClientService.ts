@@ -13,4 +13,14 @@ export class ClientService{
         return newClient;
 
     }
+
+    async listCLient(){
+        const clients = await clientRepository.find({
+            relations:{
+                wishlist: true
+            }
+        })
+
+        return clients
+    }
 }

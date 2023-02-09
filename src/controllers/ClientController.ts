@@ -49,4 +49,15 @@ export class ClientController{
         }
         
     }
+
+    async listClient(req: Request, res: Response){
+        try{
+            const listClientService = new ClientService();
+            const listClient = await listClientService.listCLient();
+            return res.status(201).json(listClient)
+        } catch(error){
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+        
+    }
 }

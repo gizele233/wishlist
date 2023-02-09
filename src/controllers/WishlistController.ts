@@ -32,8 +32,13 @@ export class WishlistController{
     }
 
     async listWishlist(req: Request, res: Response){
-        const listWishlistService = new WishlistService();
-        const listWishlist = await listWishlistService.listWishlist();
-        return res.status(201).json(listWishlist)
+        try{
+            const listWishlistService = new WishlistService();
+            const listWishlist = await listWishlistService.listWishlist();
+            return res.status(201).json(listWishlist)
+        } catch(error){
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+        
     }
 }
