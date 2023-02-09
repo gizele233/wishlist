@@ -34,12 +34,20 @@ export class WishlistService{
             return res.status(404).json({message: 'Product does not exist'})
         }
 
+
         const wishlist = await wishlistRepository.findOneBy({wishlist_id: Number(wishlist_id)});
+
+        if (!wishlist) {
+            return res.status(404).json({ message: 'Wishlist não existe' })
+        }
+
+        console.log(wishlist)
 
         const productUpdate = {
             ...productExists,
-            wishlist: [wishlist]
+            wishlists: [wishlist]
         }
+       
 
         await productRepository.save(productUpdate)
 

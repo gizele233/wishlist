@@ -27,11 +27,11 @@ export class Product{
     @JoinTable({
         name: 'product_wishlist',
         joinColumn:{
-            name: 'wishlist_id',
+            name: 'product_id',
             referencedColumnName: 'product_id'
         },
         inverseJoinColumn:{
-            name: 'product_id',
+            name: 'wishlist_id',
             referencedColumnName: 'wishlist_id'
         }
     })

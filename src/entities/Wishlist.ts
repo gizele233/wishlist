@@ -8,7 +8,9 @@ export class Wishlist{
     @PrimaryGeneratedColumn()
     wishlist_id: number
 
-    @OneToOne(() => Client, (client) => client.wishlist)
+    @OneToOne(() => Client, (client) => client.wishlist,{
+        cascade:true,
+    })
     @JoinColumn({name: 'client_id'})
     client: Client
 
