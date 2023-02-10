@@ -28,30 +28,28 @@ export class WishlistService{
     }
 
     async addProducttoWishlist({res, wishlist_id, product_id}: any){
-        const productExists = await productRepository.findOneBy({product_id: Number(product_id)});
-
+        const productExists = await productRepository.findOne({where:{product_id: Number(product_id)}});
+        
         if(!productExists){
             return res.status(404).json({message: 'Product does not exist'})
         }
 
 
-        const wishlist = await wishlistRepository.findOneBy({wishlist_id: Number(wishlist_id)});
+        const wishlist = await wishlistRepository.findOne({where: {wishlist_id: Number(wishlist_id)}});
 
         if (!wishlist) {
             return res.status(404).json({ message: 'Wishlist não existe' })
         }
 
-        console.log(wishlist)
+        
+        const productWishlist = productRepository.create({
+           ...productExists,
+           wishlists: [wishlist],
+        })
 
-        const productUpdate = {
-            ...productExists,
-            wishlists: [wishlist]
-        }
-       
+        await productRepository.save(productWishlist)
 
-        await productRepository.save(productUpdate)
-
-        return productUpdate;
+        return productWishlist;
     }
 
     async listWishlist(){
@@ -83,7 +81,7 @@ export class WishlistService{
 
         const productRemove = {
             ...productExists,
-            wishlists: [wishlist]
+            // wishlists: [wishlist]
         }
 
         await productRepository.remove(productRemove)

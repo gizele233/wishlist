@@ -1,4 +1,4 @@
-import { Column, Double, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { Wishlist } from "./Wishlist";
 
 @Entity('products')
@@ -24,16 +24,5 @@ export class Product{
 
 
     @ManyToMany(() => Wishlist, wishlist => wishlist.products)
-    @JoinTable({
-        name: 'product_wishlist',
-        joinColumn:{
-            name: 'product_id',
-            referencedColumnName: 'product_id'
-        },
-        inverseJoinColumn:{
-            name: 'wishlist_id',
-            referencedColumnName: 'wishlist_id'
-        }
-    })
     wishlists: Wishlist[]
 } 

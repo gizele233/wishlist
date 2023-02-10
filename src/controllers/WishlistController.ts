@@ -35,7 +35,7 @@ export class WishlistController{
         try{
             const listWishlistService = new WishlistService();
             const listWishlist = await listWishlistService.listWishlist();
-            return res.status(201).json(listWishlist)
+            return res.status(200).json(listWishlist)
         } catch(error){
             return res.status(500).json({message: 'Internal Server Error'})
         }

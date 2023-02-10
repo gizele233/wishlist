@@ -20,7 +20,7 @@ export class ProductController{
         try{
             const listProductService = new ProductService();
             const listProduct = await listProductService.listProduct();
-            return res.status(201).json(listProduct)
+            return res.status(200).json(listProduct)
         } catch(error){
             return res.status(500).json({message: 'Internal Server Error'})
         }

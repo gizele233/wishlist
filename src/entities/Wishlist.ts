@@ -1,4 +1,4 @@
-import { Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { Client } from "./Client";
 import { Product } from "./Product";
 
@@ -14,8 +14,18 @@ export class Wishlist{
     @JoinColumn({name: 'client_id'})
     client: Client
 
-    @ManyToMany(() => Product, product => product.wishlists,{
-        onDelete: 'CASCADE'
+    @ManyToMany(() => Product, product => product.wishlists)
+    @JoinTable({
+        name: 'product_wishlist',
+        joinColumn:{
+            name: 'wishlist_id',
+            referencedColumnName: 'wishlist_id'
+        },
+        inverseJoinColumn:{
+            name: 'product_id',
+            referencedColumnName: 'product_id'
+        },
+
     })
     products: Product[]
     
