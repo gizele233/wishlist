@@ -64,4 +64,30 @@ export class WishlistService{
 
         return wishlists
     }
+
+    async deleteProductFromWishlist({res, wishlist_id, product_id}: any){
+        const productExists = await productRepository.findOneBy({product_id: Number(product_id)});
+
+        if(!productExists){
+            return res.status(404).json({message: 'Product does not exist'})
+        }
+
+
+        const wishlist = await wishlistRepository.findOneBy({wishlist_id: Number(wishlist_id)});
+
+        if (!wishlist) {
+            return res.status(404).json({ message: 'Wishlist não existe' })
+        }
+
+        console.log(wishlist)
+
+        const productRemove = {
+            ...productExists,
+            wishlists: [wishlist]
+        }
+
+        await productRepository.remove(productRemove)
+
+        return productRemove; 
+    }
 }

@@ -41,4 +41,19 @@ export class WishlistController{
         }
         
     }
+
+    async deleteProductFromWishlist(req: Request, res: Response){
+        const {wishlist_id, product_id} = req.params;
+
+        try{
+            const deleteProductWishlistService = new WishlistService();
+        
+            const productToRemove = await deleteProductWishlistService.deleteProductFromWishlist({res, wishlist_id, product_id});
+            return res.status(204).json(productToRemove)
+            
+        } catch(error){
+            console.log(error)
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+    }
 }

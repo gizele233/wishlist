@@ -11,11 +11,7 @@ export class ProductService{
     }
 
     async listProduct(){
-        const products = await productRepository.find({
-            relations:{
-                wishlists: true,
-            }
-        })
+        const products = await productRepository.find({})
         return products
     }
 
