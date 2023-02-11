@@ -6,7 +6,7 @@ export class ClientService{
     async createClient({res, name, email_address}:any){
         const clientAlreadyExists = await clientRepository.findOne({where: {email_address: email_address}});
         if(clientAlreadyExists){
-            return res.status(404).json("There is already a customer registered with that email address");
+            return res.status(404).json({message: 'There is already a customer registered with that email address'});
         }
 
         const newClient = clientRepository.create({name, email_address})

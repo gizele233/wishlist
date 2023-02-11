@@ -1,11 +1,9 @@
+"use strict";
 const express = require('express');
 const { ClientController } = require('./controllers/ClientController');
 const { ProductController } = require('./controllers/ProductController');
-const { UserController } = require('./controllers/UserController');
 const { WishlistController } = require('./controllers/WishlistController');
-
 const router = express.Router();
-
 router.put('/product/:product_id/update', new ProductController().updateProduct);
 router.put('/client/:client_id/update', new ClientController().updateClient);
 router.delete('/product/:product_id/delete', new ProductController().deleteProduct);
@@ -17,8 +15,4 @@ router.get('/wishlists', new WishlistController().listWishlist);
 router.post('/clients', new ClientController().createClient);
 router.post('/products', new ProductController().createProduct);
 router.post('/wishlist/:wishlist_id/product/:product_id', new WishlistController().addProducttoWishlist);
-
-router.post('/user', new UserController().createUser);
-
-
 module.exports = router;

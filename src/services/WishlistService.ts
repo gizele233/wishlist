@@ -35,7 +35,7 @@ export class WishlistService{
                                             .getOne();
         
         if (!wishlist) {
-            return res.status(404).json({ message: 'Wishlist não existe' })
+            return res.status(404).json({ message: 'Wishlist does not exist' })
         }
 
         let newWishlist: Wishlist[] = [wishlist];
