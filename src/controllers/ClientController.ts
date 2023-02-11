@@ -8,8 +8,8 @@ export class ClientController{
 
         try{
             const createClientService = new ClientService();
-        
-            const client = await createClientService.createClient({name, email_address});
+            const client = await createClientService.createClient({res, name, email_address});
+
             return res.status(201).json(client)
             
         } catch(error){

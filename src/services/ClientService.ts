@@ -1,17 +1,22 @@
 import { clientRepository } from "../repositories/clientRepository";
+import { WishlistService } from "./WishlistService";
 
 
 export class ClientService{
-    async createClient({name, email_address}:any){
+    async createClient({res, name, email_address}:any){
         const clientAlreadyExists = await clientRepository.findOne({where: {email_address: email_address}});
         if(clientAlreadyExists){
-            throw new Error("Já existe um cliente cadastrado com esse endereço de email");
+            return res.status(404).json("There is already a customer registered with that email address");
         }
 
         const newClient = clientRepository.create({name, email_address})
         await clientRepository.save(newClient);
-        return newClient;
 
+        let client_id = newClient.client_id;
+        const createWishlistService = new WishlistService();
+        await createWishlistService.createWishlist({res, client_id});
+        
+        return newClient;
     }
 
     async listCLient(){

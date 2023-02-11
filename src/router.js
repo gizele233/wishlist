@@ -15,7 +15,6 @@ router.get('/clients', new ClientController().listClient);
 router.get('/wishlists', new WishlistController().listWishlist);
 router.post('/clients', new ClientController().createClient);
 router.post('/products', new ProductController().createProduct);
-router.post('/wishlist/:client_id/create', new WishlistController().createWishlist);
 router.post('/wishlist/:wishlist_id/product/:product_id', new WishlistController().addProducttoWishlist);
 
 
