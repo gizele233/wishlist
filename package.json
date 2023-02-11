@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "npx ts-node src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/app.ts",
+    "start": "node ts-node src/app.ts",
     "dev": "nodemon --exec ts-node src/app.ts",
     "migration:generate": "typeorm-ts-node-commonjs -d ./src/connection.ts migration:generate ./src/migrations/default",
     "migration:run": "typeorm-ts-node-commonjs -d ./src/connection.ts migration:run" 
