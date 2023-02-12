@@ -10,8 +10,8 @@ export class WishlistController{
         try{
             const addProducttoWishlistService = new WishlistService();
         
-            const ProducttoWishlist = await addProducttoWishlistService.addProducttoWishlist({res, wishlist_id, product_id});
-            return res.status(201).json(ProducttoWishlist)
+            const ProducttoWishlist = await addProducttoWishlistService.addProducttoWishlist({wishlist_id, product_id});
+            return res.status(ProducttoWishlist.status).json(ProducttoWishlist.message);
             
         } catch(error){
             return res.status(500).json({message: 'Internal Server Error'})
@@ -22,7 +22,7 @@ export class WishlistController{
         try{
             const listWishlistService = new WishlistService();
             const listWishlist = await listWishlistService.listWishlist();
-            return res.status(200).json(listWishlist)
+            return res.status(listWishlist.status).json(listWishlist.message);
         } catch(error){
             return res.status(500).json({message: 'Internal Server Error'})
         }
@@ -35,8 +35,8 @@ export class WishlistController{
         try{
             const deleteProductWishlistService = new WishlistService();
         
-            const productToRemove = await deleteProductWishlistService.deleteProductFromWishlist({res, wishlist_id, product_id});
-            return res.status(204).json(productToRemove)
+            const productToRemove = await deleteProductWishlistService.deleteProductFromWishlist({wishlist_id, product_id});
+            return res.status(productToRemove.status).json(productToRemove.message);
             
         } catch(error){
             console.log(error)

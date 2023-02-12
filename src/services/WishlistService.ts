@@ -6,17 +6,23 @@ import { Wishlist } from "../entities/Wishlist";
 
 
 export class WishlistService{
-    async createWishlist({res, client_id}: any){
+    async createWishlist({client_id}: any){
         const clientExists = await clientRepository.findOneBy({client_id: Number(client_id)});
         
         if(!clientExists){
-            return res.status(404).json({status: 404, message: 'Customer does not exist'});
+            return {
+                status: 404, 
+                message: {
+                    status: 404,
+                    message: 'Customer does not exist'
+                }
+            };
         }
         
         const newWishlist = wishlistRepository.create({client: clientExists});
 
         await wishlistRepository.save(newWishlist);
-        return newWishlist;
+        return {status: 201, message: newWishlist};
 
     }
 
@@ -24,7 +30,13 @@ export class WishlistService{
         const productExists = await productRepository.findOne({where:{product_id: Number(product_id)}});
         
         if(!productExists){
-            return res.status(404).json({status: 404, message: 'Product does not exist'});
+            return {
+                status: 404, 
+                message: {
+                    status: 404,
+                    message: 'Product does not exist'
+                }
+            };
         }
 
         const wishlist = await wishlistRepository.findOne({where: {wishlist_id: Number(wishlist_id)}});
@@ -35,17 +47,29 @@ export class WishlistService{
                                             .getOne();
         
         if (!wishlist) {
-            return res.status(404).json({status: 404, message: 'Wishlist does not exist' })
+            return {
+                status: 404, 
+                message: {
+                    status: 404,
+                    message: 'Wishlist does not exist'
+                }
+            };
         }
 
         let newWishlist: Wishlist[] = [wishlist];
 
         if((wishlist != null && productExistsWishlist != null)){
-            if(!productExistsWishlist.wishlists.includes(wishlist)){
+            if(productExistsWishlist.wishlists.some(e => e.wishlist_id == wishlist.wishlist_id)) {
+                return {
+                    status: 409, 
+                    message: {
+                        status: 409,
+                        message: 'The wishlist already have this product'
+                    }
+                };
+            } else {
                 productExistsWishlist.wishlists.push(wishlist);
                 newWishlist = productExistsWishlist.wishlists;
-            } else {
-                return  res.status(409).json({status: 409, message: 'The wishlist already have this product'});
             }
         }
 
@@ -55,7 +79,7 @@ export class WishlistService{
          })
 
         await productRepository.save(productWishlist);
-        return productWishlist;
+        return {status:201, message: productWishlist};
     }
 
     async listWishlist(){
@@ -66,21 +90,33 @@ export class WishlistService{
             }
         })
 
-        return wishlists;
+        return {status: 200, message: wishlists};
     }
 
-    async deleteProductFromWishlist({res, wishlist_id, product_id}: any){
+    async deleteProductFromWishlist({wishlist_id, product_id}: any){
         const productExists = await productRepository.findOneBy({product_id: Number(product_id)});
 
         if(!productExists){
-            return res.status(404).json({status: 404, message: 'Product does not exist'});
+            return {
+                status: 404, 
+                message: {
+                    status: 404,
+                    message: 'Product does not exist'
+                }
+            };
         }
 
 
         const wishlist = await wishlistRepository.findOneBy({wishlist_id: Number(wishlist_id)});
 
         if (!wishlist) {
-            return res.status(404).json({status: 404, message: 'Wishlist não existe' });
+            return {
+                status: 404, 
+                message: {
+                    status: 404,
+                    message: 'Wishlist não existe'
+                }
+            };
         }
 
         const productRemove = await wishlistRepository.createQueryBuilder("wishlists")
@@ -97,6 +133,6 @@ export class WishlistService{
         const productToRemove = wishlistRepository.create({...productRemove});
 
         await wishlistRepository.save(productToRemove);
-        return productRemove; 
+        return {status: 204, message: productRemove};
     }
 }

@@ -8,11 +8,10 @@ export class UserController{
         try{
             const createUserService = new UserService();
         
-            const createUser = await createUserService.createUser({res, name, user, password});
-            return res.status(201).send(createUser)
+            const createUser = await createUserService.createUser({name, user, password});
+            return res.status(createUser.status).json(createUser.message);
             
         } catch(error){
-            console.log(error)
             return res.status(500).send({message: 'Internal Server Error'})
         }
 
@@ -24,8 +23,8 @@ export class UserController{
         try{
             const loginUserService = new UserService();
         
-            const loginUser = await loginUserService.login({res, user, password});
-            return res.status(201).send(loginUser)
+            const loginUser = await loginUserService.login({user, password});
+            return res.status(loginUser.status).json(loginUser.message);
             
         } catch(error){
             console.log(error)

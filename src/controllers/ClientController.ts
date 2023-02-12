@@ -8,10 +8,8 @@ export class ClientController{
 
         try{
             const createClientService = new ClientService();
-            const client = await createClientService.createClient({res, name, email_address});
-
-            return res.status(201).json(client)
-            
+            const client = await createClientService.createClient({name, email_address});
+            return res.status(client.status).json(client.message);
         } catch(error){
             return res.status(500).json({status: 500, message: 'Internal Server Error'})
         }
@@ -22,7 +20,7 @@ export class ClientController{
         try{
             const listClientService = new ClientService();
             const listClient = await listClientService.listCLient();
-            return res.status(200).json(listClient)
+            return res.status(listClient.status).json(listClient.message);
         } catch(error){
             return res.status(500).json({status: 500, message: 'Internal Server Error'})
         }
@@ -33,8 +31,8 @@ export class ClientController{
         const {client_id} = req.params;
         try{
             const listClientService = new ClientService();
-            const listClient = await listClientService.listClientById({res, client_id});
-            return res.status(200).json(listClient)
+            const listClient = await listClientService.listClientById({client_id});
+            return res.status(listClient.status).json(listClient.message);
         } catch(error){
             return res.status(500).json({message: 'Internal Server Error'})
         }
@@ -47,8 +45,8 @@ export class ClientController{
         try{
             const deleteClientService = new ClientService();
         
-            const clientToRemove = await deleteClientService.deleteClient({res, client_id});
-            return res.status(204).json(clientToRemove)
+            const clientToRemove = await deleteClientService.deleteClient({client_id});
+            return res.status(clientToRemove.status).json(clientToRemove.message);
             
         } catch(error){
             console.log(error)
@@ -64,8 +62,8 @@ export class ClientController{
         try{
             const updateClientService = new ClientService();
         
-            const clientUpdate = await updateClientService.updateClient({res, client_id, name, email_address});
-            return res.status(204).json(clientUpdate)
+            const clientUpdate = await updateClientService.updateClient({client_id, name, email_address});
+            return res.status(clientUpdate.status).json(clientUpdate.message);
             
         } catch(error){
             console.log(error)

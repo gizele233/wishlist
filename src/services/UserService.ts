@@ -3,11 +3,17 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export class UserService{
-    async createUser({res, name, user, password}:any){
+    async createUser({name, user, password}:any){
         const userExists = await userRepository.findOneBy({user: user})
 
         if(userExists){
-            return res.status(404).send({status: 404, message: 'There is already a customer registered with that user'})
+            return {
+                status: 404, 
+                message: {
+                    status: 404,
+                    message: 'There is already a customer registered with that user'
+                }
+            };
         }
         
         const hashPassword = await bcrypt.hash(password, 9);
@@ -20,20 +26,32 @@ export class UserService{
 
         await userRepository.save(newUser)
         const {password: _, ...userWithoutPssword} = newUser;
-        return res.status(201).send(userWithoutPssword);
+        return {status: 201, message: userWithoutPssword};
     }
 
-    async login({res, user, password}:any){
+    async login({user, password}:any){
         const userExist = await userRepository.findOneBy({user: user});
 
         if(!userExist){
-            return res.status(404).json({status: 404, message: 'Invalid user or password'})
+            return {
+                status: 404, 
+                message: {
+                    status: 404,
+                    message: 'Invalid user or password'
+                }
+            }; 
         }
 
         const verifyPass = await bcrypt.compare(password, userExist.password);
 
         if(!verifyPass){
-            return res.status(404).json({status: 404, message: 'Invalid user or password'})
+            return {
+                status: 404, 
+                message: {
+                    status: 404,
+                    message: 'Invalid user or password'
+                }
+            };
         }
 
         const token = jwt.sign({user_id: userExist.user_id}, process.env.JWT_PASS ?? '', {
@@ -42,9 +60,11 @@ export class UserService{
 
         const {password: _, ...userLogin} = userExist
         return {
-            user: userLogin,
-			token: token,
-        }
-
+            status: 201,
+            message:{
+                user: userLogin,
+			    token: token, 
+            }
+        };
     }
 }

@@ -9,7 +9,7 @@ export class ProductController{
             const createProductService = new ProductService();
         
             const product = await createProductService.createProduct({price, image, brand, title, review_score});
-            return res.status(201).json(product)
+            return res.status(product.status).json(product.message);
             
         } catch(error){
             return res.status(500).json({message: 'Internal Server Error'})
@@ -20,7 +20,7 @@ export class ProductController{
         try{
             const listProductService = new ProductService();
             const listProduct = await listProductService.listProduct();
-            return res.status(200).json(listProduct)
+            return res.status(listProduct.status).json(listProduct.message);
         } catch(error){
             return res.status(500).json({message: 'Internal Server Error'})
         }
@@ -31,8 +31,8 @@ export class ProductController{
         const {product_id} = req.params;
         try{
             const listProductService = new ProductService();
-            const listProduct = await listProductService.listProductById({res, product_id});
-            return res.status(200).json(listProduct)
+            const listProduct = await listProductService.listProductById({product_id});
+            return res.status(listProduct.status).json(listProduct.message);
         } catch(error){
             return res.status(500).json({message: 'Internal Server Error'})
         }
@@ -45,8 +45,8 @@ export class ProductController{
         try{
             const deleteProductService = new ProductService();
         
-            const productToRemove = await deleteProductService.deleteProduct({res, product_id});
-            return res.status(204).json(productToRemove)
+            const productToRemove = await deleteProductService.deleteProduct({product_id});
+            return res.status(productToRemove.status).json(productToRemove.message);
             
         } catch(error){
             console.log(error)
@@ -62,8 +62,8 @@ export class ProductController{
         try{
             const updateProductService = new ProductService();
         
-            const productUpdate = await updateProductService.updateProduct({res, product_id, price, image, brand, title, review_score});
-            return res.status(204).json(productUpdate)
+            const productUpdate = await updateProductService.updateProduct({product_id, price, image, brand, title, review_score});
+            return res.status(productUpdate.status).json(productUpdate.message);
             
         } catch(error){
             console.log(error)
