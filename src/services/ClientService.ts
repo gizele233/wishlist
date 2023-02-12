@@ -6,7 +6,7 @@ export class ClientService{
     async createClient({res, name, email_address}:any){
         const clientAlreadyExists = await clientRepository.findOne({where: {email_address: email_address}});
         if(clientAlreadyExists){
-            return res.status(404).send({message: 'There is already a customer registered with that email address'});
+            return res.status(404).json({status: 404, message: 'There is already a customer registered with that email address'});
         }
 
         const newClient = clientRepository.create({name, email_address})
@@ -30,7 +30,7 @@ export class ClientService{
         });
 
         if(!clientToRemove){
-            return res.status(404).send({message: 'There is no customer with this id'});
+            return res.status(404).json({status: 404, message: 'There is no customer with this id'});
         }
         
         await clientRepository.remove(clientToRemove);
@@ -43,7 +43,7 @@ export class ClientService{
         });
 
         if(!clientUpdate){
-            return res.status(404).send({message: 'There is no customer with this id'})
+            return res.status(404).json({status: 404,message: 'There is no customer with this id'})
         }
         
         clientUpdate.name = name;

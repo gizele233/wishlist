@@ -7,7 +7,7 @@ export class UserService{
         const userExists = await userRepository.findOneBy({user: user})
 
         if(userExists){
-            return res.status(404).send({message: 'There is already a customer registered with that user'})
+            return res.status(404).send({status: 404, message: 'There is already a customer registered with that user'})
         }
         
         const hashPassword = await bcrypt.hash(password, 9);
@@ -27,13 +27,13 @@ export class UserService{
         const userExist = await userRepository.findOneBy({user: user});
 
         if(!userExist){
-            return res.status(404).send({message: 'Invalid user or password'})
+            return res.status(404).json({status: 404, message: 'Invalid user or password'})
         }
 
         const verifyPass = await bcrypt.compare(password, userExist.password);
 
         if(!verifyPass){
-            return res.status(404).send({message: 'Invalid user or password'})
+            return res.status(404).json({status: 404, message: 'Invalid user or password'})
         }
 
         const token = jwt.sign({user_id: userExist.user_id}, process.env.JWT_PASS ?? '', {

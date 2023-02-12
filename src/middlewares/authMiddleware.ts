@@ -11,7 +11,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 		const { authorization } = req.headers
 
 		if (!authorization) {
-			return res.status(401).send({message: "Not authorized"});
+			return res.status(401).json({status: 401, message: "Not authorized"});
 		}
 
 		const token = authorization.split(' ')[1]
@@ -20,7 +20,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 		const userExist	 = await userRepository.findOneBy({ user_id: id });
 
 		if (!userExist) {
-			return res.status(401).send({message: "Not authorized"});
+			return res.status(401).json({status: 401, message: "Not authorized"});
 		}
 
 		next()

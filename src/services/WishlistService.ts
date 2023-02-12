@@ -10,7 +10,7 @@ export class WishlistService{
         const clientExists = await clientRepository.findOneBy({client_id: Number(client_id)});
         
         if(!clientExists){
-            return res.status(404).json({message: 'Customer does not exist'});
+            return res.status(404).json({status: 404, message: 'Customer does not exist'});
         }
         
         const newWishlist = wishlistRepository.create({client: clientExists});
@@ -24,7 +24,7 @@ export class WishlistService{
         const productExists = await productRepository.findOne({where:{product_id: Number(product_id)}});
         
         if(!productExists){
-            return res.status(404).json({message: 'Product does not exist'});
+            return res.status(404).json({status: 404, message: 'Product does not exist'});
         }
 
         const wishlist = await wishlistRepository.findOne({where: {wishlist_id: Number(wishlist_id)}});
@@ -35,7 +35,7 @@ export class WishlistService{
                                             .getOne();
         
         if (!wishlist) {
-            return res.status(404).json({ message: 'Wishlist does not exist' })
+            return res.status(404).json({status: 404, message: 'Wishlist does not exist' })
         }
 
         let newWishlist: Wishlist[] = [wishlist];
@@ -45,7 +45,7 @@ export class WishlistService{
                 productExistsWishlist.wishlists.push(wishlist);
                 newWishlist = productExistsWishlist.wishlists;
             } else {
-                return  res.status(409).json({message: 'The wishlist already have this product'});
+                return  res.status(409).json({status: 409, message: 'The wishlist already have this product'});
             }
         }
 
@@ -73,14 +73,14 @@ export class WishlistService{
         const productExists = await productRepository.findOneBy({product_id: Number(product_id)});
 
         if(!productExists){
-            return res.status(404).json({message: 'Product does not exist'});
+            return res.status(404).json({status: 404, message: 'Product does not exist'});
         }
 
 
         const wishlist = await wishlistRepository.findOneBy({wishlist_id: Number(wishlist_id)});
 
         if (!wishlist) {
-            return res.status(404).json({ message: 'Wishlist não existe' });
+            return res.status(404).json({status: 404, message: 'Wishlist não existe' });
         }
 
         const productRemove = await wishlistRepository.createQueryBuilder("wishlists")

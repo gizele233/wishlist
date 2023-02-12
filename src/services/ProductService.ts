@@ -19,7 +19,7 @@ export class ProductService{
         })
 
         if(!productToRemove){
-            return res.status(404).json({message: 'There is no product with this id'})
+            return res.status(404).json({status: 404, message: 'There is no product with this id'})
         }
         
         await productRepository.remove(productToRemove)
@@ -32,7 +32,7 @@ export class ProductService{
         });
 
         if(!productUpdate){
-            return res.status(404).json({message: 'There is no product with this id'})
+            return res.status(404).json({status: 404, message: 'There is no product with this id'})
         }
         
         productUpdate.price = price;
