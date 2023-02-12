@@ -10,10 +10,10 @@ export class ClientController{
             const createClientService = new ClientService();
             const client = await createClientService.createClient({res, name, email_address});
 
-            return res.status(201).json(client)
+            return res.status(201).send(client)
             
         } catch(error){
-            return res.status(500).json({message: 'Internal Server Error'})
+            return res.status(500).send({message: 'Internal Server Error'})
         }
         
     }
@@ -22,9 +22,9 @@ export class ClientController{
         try{
             const listClientService = new ClientService();
             const listClient = await listClientService.listCLient();
-            return res.status(200).json(listClient)
+            return res.status(200).send(listClient)
         } catch(error){
-            return res.status(500).json({message: 'Internal Server Error'})
+            return res.status(500).send({message: 'Internal Server Error'})
         }
         
     }
@@ -36,11 +36,11 @@ export class ClientController{
             const deleteClientService = new ClientService();
         
             const clientToRemove = await deleteClientService.deleteClient({res, client_id});
-            return res.status(204).json(clientToRemove)
+            return res.status(204).send(clientToRemove)
             
         } catch(error){
             console.log(error)
-            return res.status(500).json({message: 'Internal Server Error'})
+            return res.status(500).send({message: 'Internal Server Error'})
         }
     }
 
@@ -53,11 +53,11 @@ export class ClientController{
             const updateClientService = new ClientService();
         
             const clientUpdate = await updateClientService.updateClient({res, client_id, name, email_address});
-            return res.status(204).json(clientUpdate)
+            return res.status(204).send(clientUpdate)
             
         } catch(error){
             console.log(error)
-            return res.status(500).json({message: 'Internal Server Error'})
+            return res.status(500).send({message: 'Internal Server Error'})
         }
     }
 }

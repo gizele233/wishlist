@@ -3,8 +3,14 @@ const { ClientController } = require('./controllers/ClientController');
 const { ProductController } = require('./controllers/ProductController');
 const { UserController } = require('./controllers/UserController');
 const { WishlistController } = require('./controllers/WishlistController');
+const { authMiddleware } = require('./middlewares/authMiddleware');
 
 const router = express.Router();
+
+router.post('/user', new UserController().createUser);
+router.post('/login', new UserController().login);
+
+router.use(authMiddleware);
 
 router.put('/product/:product_id/update', new ProductController().updateProduct);
 router.put('/client/:client_id/update', new ClientController().updateClient);
@@ -18,7 +24,6 @@ router.post('/clients', new ClientController().createClient);
 router.post('/products', new ProductController().createProduct);
 router.post('/wishlist/:wishlist_id/product/:product_id', new WishlistController().addProducttoWishlist);
 
-router.post('/user', new UserController().createUser);
 
 
 module.exports = router;

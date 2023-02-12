@@ -8,9 +8,9 @@ export class WishlistController{
         const {wishlist_id, product_id} = req.params
        
         try{
-            const createWishlistService = new WishlistService();
+            const addProducttoWishlistService = new WishlistService();
         
-            const ProducttoWishlist = await createWishlistService.addProducttoWishlist({res, wishlist_id, product_id});
+            const ProducttoWishlist = await addProducttoWishlistService.addProducttoWishlist({res, wishlist_id, product_id});
             return res.status(201).json(ProducttoWishlist)
             
         } catch(error){
