@@ -18,6 +18,8 @@ router.delete('/product/:product_id/delete', new ProductController().deleteProdu
 router.delete('/client/:client_id/delete', new ClientController().deleteClient);
 router.delete('/wishlist/:wishlist_id/product/:product_id/delete', new WishlistController().deleteProductFromWishlist);
 router.get('/products', new ProductController().listProduct);
+router.get('/products/:product_id', new ProductController().listProductById);
+router.get('/clients/:client_id', new ClientController().listClientById);
 router.get('/clients', new ClientController().listClient);
 router.get('/wishlists', new WishlistController().listWishlist);
 router.post('/clients', new ClientController().createClient);

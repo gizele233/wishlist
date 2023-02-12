@@ -29,6 +29,18 @@ export class ClientController{
         
     }
 
+    async listClientById(req: Request, res: Response){
+        const {client_id} = req.params;
+        try{
+            const listClientService = new ClientService();
+            const listClient = await listClientService.listClientById({res, client_id});
+            return res.status(200).json(listClient)
+        } catch(error){
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+        
+    }
+
     async deleteClient(req: Request, res: Response){
         const {client_id} = req.params;
 

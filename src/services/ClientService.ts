@@ -24,6 +24,16 @@ export class ClientService{
         return clients;
     }
 
+    async listClientById({res, client_id}: any){
+        const clients = await clientRepository.findOneBy({client_id: client_id});
+        
+        if(!clients){
+            return res.status(404).json({status: 404, message: 'There is no client with this id'})
+        }
+
+        return clients;
+    }
+
     async deleteClient({res, client_id}: any){
         const clientToRemove = await clientRepository.findOneBy({
             client_id: client_id

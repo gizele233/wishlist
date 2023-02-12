@@ -13,6 +13,16 @@ export class ProductService{
         return products;
     }
 
+    async listProductById({res, product_id}: any){
+        const products = await productRepository.findOneBy({product_id: product_id});
+        
+        if(!products){
+            return res.status(404).json({status: 404, message: 'There is no product with this id'})
+        }
+
+        return products;
+    }
+
     async deleteProduct({res, product_id}: any){
         const productToRemove = await productRepository.findOneBy({
             product_id: product_id

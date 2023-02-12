@@ -27,6 +27,18 @@ export class ProductController{
         
     }
 
+    async listProductById(req: Request, res: Response){
+        const {product_id} = req.params;
+        try{
+            const listProductService = new ProductService();
+            const listProduct = await listProductService.listProductById({res, product_id});
+            return res.status(200).json(listProduct)
+        } catch(error){
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+        
+    }
+
     async deleteProduct(req: Request, res: Response){
         const {product_id} = req.params;
 
