@@ -12,7 +12,7 @@ exports.Connection = new typeorm_1.DataSource({
     port: port,
     username: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DB,
+    database: process.env.MYSQL_NAME,
     entities: [`${__dirname}/**/entities/*.{ts,js}`],
     migrations: [`${__dirname}/**/migrations/*.{ts,js}`],
 });

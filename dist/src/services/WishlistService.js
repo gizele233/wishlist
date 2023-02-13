@@ -5,19 +5,31 @@ const clientRepository_1 = require("../repositories/clientRepository");
 const productRepository_1 = require("../repositories/productRepository");
 const wishlistRepository_1 = require("../repositories/wishlistRepository");
 class WishlistService {
-    async createWishlist({ res, client_id }) {
+    async createWishlist({ client_id }) {
         const clientExists = await clientRepository_1.clientRepository.findOneBy({ client_id: Number(client_id) });
         if (!clientExists) {
-            return res.status(404).json({ status: 404, message: 'Customer does not exist' });
+            return {
+                status: 404,
+                message: {
+                    status: 404,
+                    message: 'Customer does not exist'
+                }
+            };
         }
         const newWishlist = wishlistRepository_1.wishlistRepository.create({ client: clientExists });
         await wishlistRepository_1.wishlistRepository.save(newWishlist);
-        return newWishlist;
+        return { status: 201, message: newWishlist };
     }
     async addProducttoWishlist({ res, wishlist_id, product_id }) {
         const productExists = await productRepository_1.productRepository.findOne({ where: { product_id: Number(product_id) } });
         if (!productExists) {
-            return res.status(404).json({ status: 404, message: 'Product does not exist' });
+            return {
+                status: 404,
+                message: {
+                    status: 404,
+                    message: 'Product does not exist'
+                }
+            };
         }
         const wishlist = await wishlistRepository_1.wishlistRepository.findOne({ where: { wishlist_id: Number(wishlist_id) } });
         const productExistsWishlist = await productRepository_1.productRepository.createQueryBuilder("product")
@@ -25,16 +37,28 @@ class WishlistService {
             .where("product.product_id = :id", { id: product_id })
             .getOne();
         if (!wishlist) {
-            return res.status(404).json({ status: 404, message: 'Wishlist does not exist' });
+            return {
+                status: 404,
+                message: {
+                    status: 404,
+                    message: 'Wishlist does not exist'
+                }
+            };
         }
         let newWishlist = [wishlist];
         if ((wishlist != null && productExistsWishlist != null)) {
-            if (!productExistsWishlist.wishlists.includes(wishlist)) {
-                productExistsWishlist.wishlists.push(wishlist);
-                newWishlist = productExistsWishlist.wishlists;
+            if (productExistsWishlist.wishlists.some(e => e.wishlist_id == wishlist.wishlist_id)) {
+                return {
+                    status: 409,
+                    message: {
+                        status: 409,
+                        message: 'The wishlist already have this product'
+                    }
+                };
             }
             else {
-                return res.status(409).json({ status: 409, message: 'The wishlist already have this product' });
+                productExistsWishlist.wishlists.push(wishlist);
+                newWishlist = productExistsWishlist.wishlists;
             }
         }
         const productWishlist = productRepository_1.productRepository.create({
@@ -42,7 +66,7 @@ class WishlistService {
             wishlists: newWishlist,
         });
         await productRepository_1.productRepository.save(productWishlist);
-        return productWishlist;
+        return { status: 201, message: productWishlist };
     }
     async listWishlist() {
         const wishlists = await wishlistRepository_1.wishlistRepository.find({
@@ -51,16 +75,28 @@ class WishlistService {
                 products: true
             }
         });
-        return wishlists;
+        return { status: 200, message: wishlists };
     }
-    async deleteProductFromWishlist({ res, wishlist_id, product_id }) {
+    async deleteProductFromWishlist({ wishlist_id, product_id }) {
         const productExists = await productRepository_1.productRepository.findOneBy({ product_id: Number(product_id) });
         if (!productExists) {
-            return res.status(404).json({ status: 404, message: 'Product does not exist' });
+            return {
+                status: 404,
+                message: {
+                    status: 404,
+                    message: 'Product does not exist'
+                }
+            };
         }
         const wishlist = await wishlistRepository_1.wishlistRepository.findOneBy({ wishlist_id: Number(wishlist_id) });
         if (!wishlist) {
-            return res.status(404).json({ status: 404, message: 'Wishlist não existe' });
+            return {
+                status: 404,
+                message: {
+                    status: 404,
+                    message: 'Wishlist não existe'
+                }
+            };
         }
         const productRemove = await wishlistRepository_1.wishlistRepository.createQueryBuilder("wishlists")
             .leftJoinAndSelect("wishlists.products", "products")
@@ -73,7 +109,7 @@ class WishlistService {
         }
         const productToRemove = wishlistRepository_1.wishlistRepository.create({ ...productRemove });
         await wishlistRepository_1.wishlistRepository.save(productToRemove);
-        return productRemove;
+        return { status: 204, message: productRemove };
     }
 }
 exports.WishlistService = WishlistService;

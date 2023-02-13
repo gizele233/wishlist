@@ -7,8 +7,8 @@ class ClientController {
         const { name, email_address } = req.body;
         try {
             const createClientService = new ClientService_1.ClientService();
-            const client = await createClientService.createClient({ res, name, email_address });
-            return res.status(201).json(client);
+            const client = await createClientService.createClient({ name, email_address });
+            return res.status(client.status).json(client.message);
         }
         catch (error) {
             return res.status(500).json({ status: 500, message: 'Internal Server Error' });
@@ -18,7 +18,7 @@ class ClientController {
         try {
             const listClientService = new ClientService_1.ClientService();
             const listClient = await listClientService.listCLient();
-            return res.status(200).json(listClient);
+            return res.status(listClient.status).json(listClient.message);
         }
         catch (error) {
             return res.status(500).json({ status: 500, message: 'Internal Server Error' });
@@ -28,8 +28,8 @@ class ClientController {
         const { client_id } = req.params;
         try {
             const listClientService = new ClientService_1.ClientService();
-            const listClient = await listClientService.listClientById({ res, client_id });
-            return res.status(200).json(listClient);
+            const listClient = await listClientService.listClientById({ client_id });
+            return res.status(listClient.status).json(listClient.message);
         }
         catch (error) {
             return res.status(500).json({ message: 'Internal Server Error' });
@@ -39,8 +39,8 @@ class ClientController {
         const { client_id } = req.params;
         try {
             const deleteClientService = new ClientService_1.ClientService();
-            const clientToRemove = await deleteClientService.deleteClient({ res, client_id });
-            return res.status(204).json(clientToRemove);
+            const clientToRemove = await deleteClientService.deleteClient({ client_id });
+            return res.status(clientToRemove.status).json(clientToRemove.message);
         }
         catch (error) {
             console.log(error);
@@ -52,8 +52,8 @@ class ClientController {
         const { client_id } = req.params;
         try {
             const updateClientService = new ClientService_1.ClientService();
-            const clientUpdate = await updateClientService.updateClient({ res, client_id, name, email_address });
-            return res.status(204).json(clientUpdate);
+            const clientUpdate = await updateClientService.updateClient({ client_id, name, email_address });
+            return res.status(clientUpdate.status).json(clientUpdate.message);
         }
         catch (error) {
             console.log(error);
