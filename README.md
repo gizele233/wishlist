@@ -38,16 +38,20 @@ API construída em nodejs usando autenticação jwt que simula uma lista de favo
 - docker
 
 # Passo a passo de como executar o projeto
-1° Dentro da pasta do projeto execute o seguinte comando:
-    - `npm install`
-2° Execute o seguinte comando para iniciar o banco de dados:
-    - `docker-compose up`
-3º Execute os comandos em sequência para gerar as migrations:
-    - `yarn migration:generate` ou `npm run migration:generate`
-    - `yarn migration:run` ou `npm run migration:run`
-4º Execute o projeto com o comando
-    - `npm run dev`
+<ol>
+<li>Dentro da pasta do projeto execute o seguinte comando:</li>
+    <p><b>npm install</b></p> 
+ <li>Execute o seguinte comando para iniciar o banco de dados:</li>
+    <p><b>docker-compose up</b></p>
+ <li>Execute os comandos em sequência para gerar as migrations:</li>
+    <p><b>yarn migration:generate</b> ou <b>npm run migration:generate</b></p>
+    <p><b>yarn migration:run</b> ou <b>npm run migration:run</b></p>
+ <li>Execute o projeto com o comando</li>
+    <p><b>npm run dev</b></p>
+</ol>
+Pronto! agora é só começar a usar a API em sua ferramenta de testes favorita.
+
 
 # Swagger
-Para acessar a documentação digite a seguinte url no navegador
+Para acessar a documentação é necessário rodar o projeto e digitar a seguinte url no navegador
 - http://localhost:3333/doc/
