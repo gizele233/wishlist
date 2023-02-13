@@ -11,6 +11,7 @@ router.post('/user', new UserController().createUser
 // #swagger.tags = ['User']
 // #swagger.description = 'Cria um usuário'
 );
+
 router.post('/login', new UserController().login
 // #swagger.tags = ['User']
 // #swagger.description = 'Faz login no usuário retornando um token'
@@ -33,25 +34,46 @@ router.delete('/wishlist/:wishlist_id/product/:product_id/delete', new WishlistC
 // #swagger.description = 'Deleta um produto da wishlist'
 );
 
-router.put('/product/:product_id/update', new ProductController().updateProduct
-// #swagger.tags = ['Product']
-// #swagger.description = 'Atualiza um produto passando o id'
-);
-router.post('/products', new ProductController().createProduct
-// #swagger.tags = ['Product']
-// #swagger.description = 'Cria um produto'
-);
 router.get('/products', new ProductController().listProduct
 // #swagger.tags = ['Product']
 // #swagger.description = 'Lista todos os produtos da base'
 );
+
 router.get('/products/:product_id', new ProductController().listProductById
 // #swagger.tags = ['Product']
 // #swagger.description = 'Obtém um produto pelo id'
 );
+
+router.post('/product', new ProductController().createProduct
+// #swagger.tags = ['Product']
+// #swagger.description = 'Cria um produto'
+);
+
+router.put('/product/:product_id/update', new ProductController().updateProduct
+// #swagger.tags = ['Product']
+// #swagger.description = 'Atualiza um produto passando o id'
+);
+
 router.delete('/product/:product_id/delete', new ProductController().deleteProduct
 // #swagger.tags = ['Product']
 // #swagger.description = 'Deleta um produto passando um id'
+);
+
+router.get('/clients', new ClientController().listClient
+// #swagger.tags = ['Client']
+// #swagger.description = 'Busca todos os clientes da base'
+
+);
+
+router.get('/clients/:client_id', new ClientController().listClientById
+// #swagger.tags = ['Client']
+// #swagger.description = 'Obtem um cliente pelo ID'
+
+);
+
+router.post('/client', new ClientController().createClient
+// #swagger.tags = ['Client']
+// #swagger.description = 'Cria um cliente'
 );
 
 router.put('/client/:client_id/update', new ClientController().updateClient
@@ -63,22 +85,6 @@ router.delete('/client/:client_id/delete', new ClientController().deleteClient
 // #swagger.tags = ['Client']
 // #swagger.description = 'Deleta um cliente passando id'
 );
-router.get('/clients/:client_id', new ClientController().listClientById
-// #swagger.tags = ['Client']
-// #swagger.description = 'Obtem um cliente pelo ID'
-
-);
-router.get('/clients', new ClientController().listClient
-// #swagger.tags = ['Client']
-// #swagger.description = 'Busca todos os clientes da base'
-
-);
-router.post('/clients', new ClientController().createClient
-// #swagger.tags = ['Client']
-// #swagger.description = 'Cria um cliente'
-)
-
-
 
 
 module.exports = router;
