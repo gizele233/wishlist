@@ -55,3 +55,7 @@ Pronto! agora é só começar a usar a API em sua ferramenta de testes favorita.
 # Swagger
 Para acessar a documentação é necessário rodar o projeto e digitar a seguinte url no navegador
 - http://localhost:3333/doc/
+
+# Arquivo de testes postman
+Segue um arquivos para testes no postmam: 
+https://drive.google.com/file/d/18R27uSq1cqFvRe2FLG9kZf5Aur8fbLky/view?usp=sharing
