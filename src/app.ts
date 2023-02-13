@@ -1,6 +1,4 @@
 import express from 'express';
-// const express = require ('./express');
-// const Connection = require('./connection');
 import {Connection} from './connection';
 const router = require('./router');
 const swaggerUi = require('swagger-ui-express');
@@ -13,5 +11,6 @@ Connection.initialize().then(() => {
     app.use(router);
 
     return app.listen(process.env.PORT);
+   
 })
 

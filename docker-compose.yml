@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  mysqldb:
+    image: mysql:5.7
+    restart: unless-stopped
+    env_file: src/.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=wishlist
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+
+    expose:
+      - '3306'
+    
+
+volumes: 
+  db:
+  
+
+
+
